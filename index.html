@@ -925,20 +925,20 @@
         const blockStampText = document.querySelector(".block-stamp-text");
         const spacedTexts = document.querySelectorAll(".spaced-text");
 
-        let spacedTextFontSize = parseInt(
+        let spacedTextFontSize = parseFloat(
           window.getComputedStyle(spacedTexts[0]).getPropertyValue("font-size")
         );
 
         if (
           blockStampText.getBoundingClientRect().height >= textContainerHeight
         ) {
-          console.log(`${--spacedTextFontSize}px`);
-          spacedTexts[0].style.fontSize = `${spacedTextFontSize - 1.5}px`;
-          spacedTexts[1].style.fontSize = `${spacedTextFontSize - 1}px`;
-          // [...spacedTexts].forEach((spacedText) => {
-          //   spacedText.style.fontSize = `${--spacedTextFontSize}px`;
-          // });
-          checkFontSize();
+          spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.5}px`;
+
+          spacedTexts[0].style.fontSize = `${
+            parseFloat(spacedTexts[1].style.fontSize) - 1.8
+          }px`;
+          // console.log(spacedTexts[1].style.fontSize, "after");
+          // checkFontSize();
         }
         // console.log(textContainerHeight, blockStampTextHeight);
       }
