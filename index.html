@@ -922,34 +922,24 @@
         .getElementById("textContainer")
         .getBoundingClientRect().height;
 
-      function checkFontSize() {
-        const blockStampText = document.querySelector(".block-stamp-text");
-        const spacedTexts = document.querySelectorAll(".spaced-text");
+      const blockStampText = document.querySelector(".block-stamp-text");
+      const spacedTexts = document.querySelectorAll(".spaced-text");
 
+      function checkFontSize() {
         let spacedTextFontSize = parseFloat(
-          window.getComputedStyle(spacedTexts[0]).getPropertyValue("font-size")
+          window.getComputedStyle(spacedTexts[1]).getPropertyValue("font-size")
         );
 
         if (
-          blockStampText.getBoundingClientRect().height >= textContainerHeight
+          blockStampText.getBoundingClientRect().height > textContainerHeight
         ) {
-          spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.1}px`;
+          spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.05}px`;
 
           spacedTexts[0].style.fontSize = `${
             parseFloat(spacedTexts[1].style.fontSize) - 1.2
           }px`;
-          // console.log(spacedTexts[1].style.fontSize, "after");
           checkFontSize();
-        } else {
-          // if (spacedTextFontSize < 12) {
-          //   spacedTexts[1].style.fontSize = `${spacedTextFontSize + 0.1}px`;
-          //   spacedTexts[0].style.fontSize = `${
-          //     parseFloat(spacedTexts[1].style.fontSize) + 1.2
-          //   }px`;
-          //   checkFontSize();
-          // }
         }
-        // console.log(textContainerHeight, blockStampTextHeight);
       }
       // ================================
       document
