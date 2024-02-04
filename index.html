@@ -94,6 +94,7 @@
                       }
                       .spaced-text {
                         font-size: 14px;
+                        line-height: 1;
                         letter-spacing: 1.25px;
                       }
                     </style>
@@ -932,13 +933,21 @@
         if (
           blockStampText.getBoundingClientRect().height >= textContainerHeight
         ) {
-          spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.5}px`;
+          spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.1}px`;
 
           spacedTexts[0].style.fontSize = `${
-            parseFloat(spacedTexts[1].style.fontSize) - 1.8
+            parseFloat(spacedTexts[1].style.fontSize) - 1.2
           }px`;
           // console.log(spacedTexts[1].style.fontSize, "after");
-          // checkFontSize();
+          checkFontSize();
+        } else {
+          // if (spacedTextFontSize < 12) {
+          //   spacedTexts[1].style.fontSize = `${spacedTextFontSize + 0.1}px`;
+          //   spacedTexts[0].style.fontSize = `${
+          //     parseFloat(spacedTexts[1].style.fontSize) + 1.2
+          //   }px`;
+          //   checkFontSize();
+          // }
         }
         // console.log(textContainerHeight, blockStampTextHeight);
       }
