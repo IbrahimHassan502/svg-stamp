@@ -74,6 +74,7 @@
                         <path
                           d="M 133.078125 70.257812 L 143.027344 70.257812 L 143.027344 79.742188 L 133.078125 79.742188 Z M 133.078125 70.257812 "
                           clip-rule="nonzero"
+                          class="right-star"
                         ></path>
                       </clipPath>
                       <clipPath id="b055fafc4e">
@@ -104,7 +105,7 @@
                         href="#nameTextPath"
                         text-anchor="middle"
                         startOffset="50%"
-                        class="textPath spaced-text"
+                        class="textPath spaced-text curved-text"
                         id="nameText"
                       >
                         JOHN M. DOE THE THIRD
@@ -123,6 +124,7 @@
                           stroke-width="4"
                           stroke-opacity="1"
                           stroke-miterlimit="4"
+                          class="inner-circle"
                         ></path>
                       </g>
                     </g>
@@ -138,6 +140,7 @@
                           stroke-width="4"
                           stroke-opacity="1"
                           stroke-miterlimit="4"
+                          class="outer-circle"
                         ></path>
                       </g>
                     </g>
@@ -913,22 +916,54 @@
           nameText.textContent = newText;
         });
         // function to reduce font size whenever paragraph wraps
-        checkFontSize();
+        checkFontSizeRight();
+        checkFontSizeLeft();
       }
 
-      /*======================
-      ================= function to reduce font size whenver paragraph wraps */
+      /*================================================================
+      function to reduce font size whenver paragraph on the left wraps
+      =================================================================== */
+      const spacedTexts = document.querySelectorAll(".spaced-text");
+      const outerCircleHeight = document
+        .querySelector(".outer-circle")
+        .getBoundingClientRect().height;
+
+      const innerCircleHeight = document
+        .querySelector(".inner-circle")
+        .getBoundingClientRect().height;
+
+      const middleCircleHeight =
+        outerCircleHeight - (outerCircleHeight - innerCircleHeight) / 2.7;
+
+      function checkFontSizeLeft() {
+        const spacedTextFontSize = parseFloat(
+          window.getComputedStyle(spacedTexts[0]).getPropertyValue("font-size")
+        );
+        const curvedTextHeight = document
+          .querySelector(".curved-text")
+          .getBoundingClientRect().height;
+
+        console.log(
+          document.querySelector(".curved-text").getBoundingClientRect().height
+        );
+
+        if (curvedTextHeight >= middleCircleHeight / 2.25) {
+          spacedTexts[0].style.fontSize = `${spacedTextFontSize - 0.25}px`;
+          checkFontSizeLeft();
+        }
+      }
+
+      /*================================================================
+      function to reduce font size whenver paragraph on the right wraps
+      =================================================================== */
       const textContainerHeight = document
         .getElementById("textContainer")
         .getBoundingClientRect().height;
 
       const blockStampText = document.querySelector(".block-stamp-text");
-      const spacedTexts = document.querySelectorAll(".spaced-text");
 
-      let i = 1;
-
-      function checkFontSize() {
-        let spacedTextFontSize = parseFloat(
+      function checkFontSizeRight() {
+        const spacedTextFontSize = parseFloat(
           window.getComputedStyle(spacedTexts[1]).getPropertyValue("font-size")
         );
 
@@ -936,17 +971,7 @@
           blockStampText.getBoundingClientRect().height > textContainerHeight
         ) {
           spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.1}px`;
-
-          // spacedTexts[0].style.fontSize = `${
-          //   parseFloat(spacedTexts[1].style.fontSize) - 1.2
-          // }px`;
-
-          spacedTexts[0].style.fontSize = `${
-            parseFloat(spacedTexts[1].style.fontSize) - (1.2 ^ i)
-          }px`;
-          i += 0.037;
-          console.log(i);
-          checkFontSize();
+          checkFontSizeRight();
         }
       }
       // ================================
