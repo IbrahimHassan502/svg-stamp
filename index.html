@@ -947,7 +947,7 @@
         .getBoundingClientRect().height;
 
       const middleCircleHeight =
-        outerCircleHeight - (outerCircleHeight - innerCircleHeight) / 2.7;
+        outerCircleHeight - (outerCircleHeight - innerCircleHeight) / 2.2;
       // =================================================================
       function regulateFontSizeLeft() {
         const spacedTextFontSize = parseFloat(
@@ -958,10 +958,10 @@
           .querySelector(".curved-text")
           .getBoundingClientRect().height;
 
-        if (curvedTextHeight > middleCircleHeight / 2.25) {
-          spacedTexts[0].style.fontSize = `${spacedTextFontSize - 0.25}px`;
+        if (curvedTextHeight > middleCircleHeight / 2.3) {
+          spacedTexts[0].style.fontSize = `${spacedTextFontSize - 0.2}px`;
           curvedTextContiner.style.transform = `translateY(${i}px)`;
-          i -= 0.02;
+          i -= 0.04;
           regulateFontSizeLeft();
         } else if (spacedTextFontSize < originalFontSize) {
           spacedTexts[0].style.fontSize = `${spacedTextFontSize + 0.3}px`;
