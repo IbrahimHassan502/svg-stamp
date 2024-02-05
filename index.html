@@ -98,9 +98,12 @@
                         line-height: 1;
                         letter-spacing: 1.25px;
                       }
+                      .curved-text-container {
+                        transform: translateY(0);
+                      }
                     </style>
 
-                    <text>
+                    <text class="curved-text-container">
                       <textPath
                         href="#nameTextPath"
                         text-anchor="middle"
@@ -916,14 +919,25 @@
           nameText.textContent = newText;
         });
         // function to reduce font size whenever paragraph wraps
-        checkFontSizeRight();
-        checkFontSizeLeft();
+        regulateFontSizeLeft();
+        regulateFontSizeRight();
       }
 
       /*================================================================
       function to reduce font size whenver paragraph on the left wraps
       =================================================================== */
       const spacedTexts = document.querySelectorAll(".spaced-text");
+
+      const originalFontSize = parseFloat(
+        window.getComputedStyle(spacedTexts[0]).getPropertyValue("font-size")
+      );
+
+      const curvedTextContiner = document.querySelector(
+        ".curved-text-container"
+      );
+
+      let i = 0;
+
       const outerCircleHeight = document
         .querySelector(".outer-circle")
         .getBoundingClientRect().height;
@@ -934,22 +948,30 @@
 
       const middleCircleHeight =
         outerCircleHeight - (outerCircleHeight - innerCircleHeight) / 2.7;
-
-      function checkFontSizeLeft() {
+      // =================================================================
+      function regulateFontSizeLeft() {
         const spacedTextFontSize = parseFloat(
           window.getComputedStyle(spacedTexts[0]).getPropertyValue("font-size")
         );
+
         const curvedTextHeight = document
           .querySelector(".curved-text")
           .getBoundingClientRect().height;
 
-        console.log(
-          document.querySelector(".curved-text").getBoundingClientRect().height
-        );
-
-        if (curvedTextHeight >= middleCircleHeight / 2.25) {
+        if (curvedTextHeight > middleCircleHeight / 2.25) {
           spacedTexts[0].style.fontSize = `${spacedTextFontSize - 0.25}px`;
-          checkFontSizeLeft();
+          curvedTextContiner.style.transform = `translateY(${i}px)`;
+          i -= 0.02;
+          regulateFontSizeLeft();
+        } else if (spacedTextFontSize < originalFontSize) {
+          spacedTexts[0].style.fontSize = `${spacedTextFontSize + 0.3}px`;
+          if (curvedTextHeight > middleCircleHeight / 2.3) {
+            spacedTexts[0].style.fontSize = `${spacedTextFontSize - 0.25}px`;
+            i += 0.02;
+            curvedTextContiner.style.transform = `translateY(${
+              i > 0 ? i : 0
+            }px)`;
+          }
         }
       }
 
@@ -961,8 +983,8 @@
         .getBoundingClientRect().height;
 
       const blockStampText = document.querySelector(".block-stamp-text");
-
-      function checkFontSizeRight() {
+      // ================================================================
+      function regulateFontSizeRight() {
         const spacedTextFontSize = parseFloat(
           window.getComputedStyle(spacedTexts[1]).getPropertyValue("font-size")
         );
@@ -971,7 +993,14 @@
           blockStampText.getBoundingClientRect().height > textContainerHeight
         ) {
           spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.1}px`;
-          checkFontSizeRight();
+          regulateFontSizeRight();
+        } else if (spacedTextFontSize < originalFontSize) {
+          spacedTexts[1].style.fontSize = `${spacedTextFontSize + 1}px`;
+          if (
+            blockStampText.getBoundingClientRect().height > textContainerHeight
+          ) {
+            spacedTexts[1].style.fontSize = `${spacedTextFontSize - 0.1}px`;
+          }
         }
       }
       // ================================
